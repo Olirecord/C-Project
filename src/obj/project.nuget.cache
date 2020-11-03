@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "SKp2SDj0WlOmoIio66j9u6NVvaGJuS+SuspTCp/7y0fULB4puQE9vhCnN+3odHeI39Ft0GDc90nAmk/KQR2pqA==",
+  "success": true,
+  "projectFilePath": "/Users/Oliver.Record/Desktop/c#Proj/src/src.csproj",
+  "expectedPackageFiles": [
+    "/Users/Oliver.Record/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

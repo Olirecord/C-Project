@@ -1,0 +1,14 @@
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.csprojAssemblyReference.cache
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.AssemblyInfoInputs.cache
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.AssemblyInfo.cs
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.csproj.CoreCompileInputs.cache
+/Users/Oliver.Record/Desktop/c#Proj/src/bin/Debug/netcoreapp3.1/src.deps.json
+/Users/Oliver.Record/Desktop/c#Proj/src/bin/Debug/netcoreapp3.1/src.runtimeconfig.json
+/Users/Oliver.Record/Desktop/c#Proj/src/bin/Debug/netcoreapp3.1/src.runtimeconfig.dev.json
+/Users/Oliver.Record/Desktop/c#Proj/src/bin/Debug/netcoreapp3.1/src.dll
+/Users/Oliver.Record/Desktop/c#Proj/src/bin/Debug/netcoreapp3.1/src.pdb
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.dll
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.pdb
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.genruntimeconfig.cache
+/Users/Oliver.Record/Desktop/c#Proj/src/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
+/Users/Oliver.Record/Desktop/c#Proj/src/obj/Debug/netcoreapp3.1/src.csproj.CopyComplete
