@@ -6,13 +6,7 @@ namespace src
     {
         static void Main(string[] args)
         {
-
-
             var Service = new Service();
-
-
-
-
         }
 
 

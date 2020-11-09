@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace src
 {
     public class Account
     {
-        public int accountNo { get;}
-        public string nameOnAcc { get;}
-        public int custId { get; set; }
-        public int overdraftAmount { get;}
-        public int ballance { get; set; }
+        public int accountNo { get; private set; }
+        public string nameOnAcc { get; private set; }
+        public int custId { get; private set; }
+        public int overdraftAmount { get; private set; }
+        public int ballance { get; private set; }
 
         private readonly List<Transaction> transactions = new List<Transaction>();
+        Terminal terminal = new Terminal();
 
         public Account(int accountNo, string nameOnAcc, int custId, int overdraftAmount, int ballance)
         {
@@ -31,6 +33,26 @@ namespace src
             this.ballance = this.ballance + 10;
         }
 
+        public override string ToString()
+        {
+            return $"AccNo: {this.accountNo} Ballance: {this.ballance} Overdraft: {this.overdraftAmount}"; 
+        }
+
+        public string addTrans( string transName, int transAmount, Boolean debit,int remainingBallance)
+        {
+            int transID = transactions.Count + 1;
+            Transaction transaction = new Transaction(transID, transName, transAmount, debit, remainingBallance);
+            transactions.Add(transaction);
+            var confirmation = $"Your transaction for {transName} for £{transAmount} has been taken from your ballance";
+            this.ballance = remainingBallance;
+            return confirmation;
+        }
+
+        public List<Transaction> getTransactions(int noOfTrans)
+        {
+            return transactions.Take(noOfTrans).ToList();
+        }
+
         public int calcBallance(int transAmount)
         {
             int remainingBallance;
@@ -44,85 +66,38 @@ namespace src
                 remainingBallance = this.ballance - transAmount;
                 return remainingBallance;
             }
-                
         }
 
-
-
-
-        public string addTransaction(int transId, string transName, int transAmount, Boolean debit)
+        public string addTransaction(string transName, int transAmount, Boolean debit)
         {
-            
             var remainingBallance = calcBallance(transAmount);
-            var confirmation = $"Your credit from {transName} for £{transAmount} has been added to your ballance";
 
             if (debit == true)
             {
-                if(remainingBallance < 0 && remainingBallance >= (overdraftAmount * -1))
-                {   
-                    Console.WriteLine("This transaction will take you into your overdraft");
-                    Transaction transaction = new Transaction(transId, transName, transAmount, debit, remainingBallance);
-                    transactions.Add(transaction);
-                    confirmation = $"Your debit for {transName} for £{transAmount} has been taken from your ballance";
-                    this.ballance = remainingBallance;
-                    return confirmation;
-                }
-                else if(remainingBallance < (overdraftAmount * -1))
+                if (remainingBallance < 0 && remainingBallance >= (this.overdraftAmount * -1))
                 {
-                    Console.WriteLine("This transaction would take you over your agreed overdraft, please choose a lower amount");
-                    confirmation = "";
+                    terminal.printStatement("This transaction will take you into your overdraft");
+                    return addTrans(transName, transAmount, debit, remainingBallance);
+                }
+                else if (remainingBallance < (this.overdraftAmount * -1))
+                {
+                    terminal.printStatement("This transaction would take you over your agreed overdraft, please choose a lower amount");
+                    var confirmation = "";
                     return confirmation;
                 }
                 else
                 {
-                    Transaction transaction = new Transaction(transId, transName, transAmount, debit, remainingBallance);
-                    transactions.Add(transaction);
-                    this.ballance = remainingBallance;
-                    confirmation = $"Your debit for {transName} for £{transAmount} has been taken from your ballance";
-                    return confirmation;
+                    return addTrans(transName, transAmount, debit, remainingBallance);
                 }
-               
             }
             else
             {
-                Transaction transaction = new Transaction(transId, transName, transAmount, debit, (this.ballance+transAmount));
-                transactions.Add(transaction);
-                this.ballance = this.ballance + transAmount;   
-                return confirmation;
+
+                return addTrans(transName, transAmount, debit, (this.ballance + transAmount));
             }
-            
         }
 
-        public List<Transaction> recentTransactions(int noOfTrans)
-        {
-            List<Transaction> tempTrans = new List<Transaction>();
 
-            if(noOfTrans > transactions.Count)
-            {
-                noOfTrans = transactions.Count - 1;
-                for (int count = 0; count <= noOfTrans; count += 1)
-                {
-                    tempTrans.Add(transactions[count]);
-                }
-                return tempTrans;
-            }
-            else
-            {
-                for (int count = 0; count< noOfTrans; count += 1)
-                {
-                    tempTrans.Add(transactions[count]);
-                }
-                return tempTrans;
-            }
-            
-        }
-
-        public List<Transaction> getTransactions()
-        {
-            return transactions ;
-        }
-
-        
     }
 }
 

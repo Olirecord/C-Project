@@ -28,18 +28,12 @@ namespace src
 
         public string addCustomer(string name)
         {
-            int count = 0;
-            foreach(Customer data in custList)
-            {
-                if(data.custId > count)
-                {
-                    count = data.custId + 1;
-                }
-            }
-            Customer customer = new Customer(count,name);
+            int custID = custList.Count+1;
+            
+            Customer customer = new Customer(custID,name);
             custList.Add(customer);
 
-            var confirmation = $"{name} has been added and their ID number is {count}";
+            var confirmation = $"{name} has been added and their ID number is {custID}";
             return confirmation;
         }
 

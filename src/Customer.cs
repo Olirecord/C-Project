@@ -10,6 +10,7 @@ namespace src
         public DateTime dateJoined;
 
         private readonly List<Account> account = new List<Account>();
+        Terminal terminal = new Terminal();
 
         public Customer(int custId,string custName)
         {
@@ -23,6 +24,11 @@ namespace src
             account.Add(Account2);
         }
 
+        public override string ToString()
+        {
+            return $"Name: {this.custName} ID: {this.custId} MemberSince: {this.dateJoined}";
+        }
+
         public Account filterAccount(int accountNo)
         {
             var reponse = account.Find(r => r.accountNo == accountNo);
@@ -34,14 +40,12 @@ namespace src
             return account;
         }
 
-        public void addAccount(int accountNo, string nameOnAcc, int custId, int overdraftAmount, int ballance)
+        public void addAccount( int overdraftAmount, int ballance)
         {
-
-            Account Account = new Account(accountNo, nameOnAcc, custId, overdraftAmount,ballance );
+            int accNo = account.Count +1;
+            Account Account = new Account(accNo, custName, custId, overdraftAmount,ballance );
             account.Add(Account);
-            Console.WriteLine($"account added for {nameOnAcc} - account number is {accountNo}");
-
-
+            terminal.printStatement($"account added for {custName} - account number is {accNo}");
         }
     }
 }
