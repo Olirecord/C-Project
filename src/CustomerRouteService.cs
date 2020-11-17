@@ -4,6 +4,7 @@ namespace src
     public class CustomerRouteService : IRouter
     {
         readonly Customers Customers;
+        Terminal terminal = new Terminal();
         
         
 
@@ -14,8 +15,8 @@ namespace src
 
         public void route()
         {
-            Console.WriteLine("Would you like to view or add a Customer?");
-            var choice = Console.ReadLine();
+            terminal.printStatement("Would you like to view or add a Customer?");
+            var choice = terminal.returnStatement();
             
             if (choice.ToLower() == "view")
             {
@@ -27,7 +28,7 @@ namespace src
             }
             else
             {
-                Console.WriteLine("Please enter either 'View' or 'Add'");
+                terminal.printStatement("Please enter either 'View' or 'Add'");
                 this.route();
             }
 
@@ -36,18 +37,18 @@ namespace src
 
         public void displayCustomer()
         {
-            Console.WriteLine("Please enter the customer ID");
-            var custId = int.Parse(Console.ReadLine());
+            terminal.printStatement("Please enter the customer ID");
+            var custId = int.Parse(terminal.returnStatement());
             var customer = Customers.filterCust(custId);
-            Console.WriteLine("");
-            Console.WriteLine(customer);
+            terminal.printStatement("");
+            terminal.printCustomer(customer);
         }
 
         public void addCustomer()
         {
-            Console.WriteLine("Please enter the name of the customer you wish to add");
+            terminal.printStatement("Please enter the name of the customer you wish to add");
             var custToAdd = Console.ReadLine();
-            Console.WriteLine(Customers.addCustomer(custToAdd));
+            terminal.printCustomer(Customers.addCustomer(custToAdd));
         }
     }
 }

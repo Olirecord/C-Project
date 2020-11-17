@@ -5,7 +5,7 @@ namespace src
 {
     public class Customer
     {
-        public int custId;
+        public int custId;  
         public string custName;
         public DateTime dateJoined;
 
@@ -17,11 +17,6 @@ namespace src
             this.custId = custId;
             this.custName = custName;
             this.dateJoined = DateTime.Now;
-
-            Account Account = new Account(1, custName, custId, 100, 100);
-            account.Add(Account);
-            Account Account2 = new Account(2, custName, custId, 100, 500);
-            account.Add(Account2);
         }
 
         public override string ToString()
@@ -40,12 +35,12 @@ namespace src
             return account;
         }
 
-        public void addAccount( int overdraftAmount, int ballance)
+        public Account addAccount( int overdraftAmount, int ballance)
         {
             int accNo = account.Count +1;
             Account Account = new Account(accNo, custName, custId, overdraftAmount,ballance );
             account.Add(Account);
-            terminal.printStatement($"account added for {custName} - account number is {accNo}");
+            return Account;
         }
     }
 }

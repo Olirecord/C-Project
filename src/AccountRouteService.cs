@@ -4,6 +4,7 @@ namespace src
     public class AccountRouteService : IRouter
     {
         readonly Customers Customers;
+        Terminal terminal = new Terminal();
 
         public AccountRouteService(object customers)
         {
@@ -12,33 +13,33 @@ namespace src
 
         public void route()
         {
-            Console.WriteLine("Would you like to view or add a Account?");
-            var choice = Console.ReadLine();
+            terminal.printStatement("Would you like to view or add a Account?");
+            var choice = terminal.returnStatement();
             if (choice.ToLower() == "view")
             {
-                Console.WriteLine("Please enter your customer ID");
-                int custId = int.Parse(Console.ReadLine());
+                terminal.printStatement("Please enter your customer ID");
+                int custId = int.Parse(terminal.returnStatement());
                 var customer = Customers.filterCust(custId);
 
                 displayAccounts(customer);
             }
             else if (choice.ToLower() == "add")
             {
-                Console.WriteLine("Please enter your customer ID");
-                var custID = int.Parse(Console.ReadLine());
+                terminal.printStatement("Please enter your customer ID");
+                var custID = int.Parse(terminal.returnStatement());
                 var customer = Customers.filterCust(custID);
 
-                Console.WriteLine("Please enter overdraft amount");
-                int overdraftAmount = int.Parse(Console.ReadLine());
+                terminal.printStatement("Please enter overdraft amount");
+                int overdraftAmount = int.Parse(terminal.returnStatement());
 
-                Console.WriteLine("Please enter ballance");
-                int ballance = int.Parse(Console.ReadLine());
+                terminal.printStatement("Please enter ballance");
+                int ballance = int.Parse(terminal.returnStatement());
 
-                customer.addAccount(overdraftAmount, ballance);
+                terminal.printAccount(customer.addAccount(overdraftAmount, ballance));
             }
             else
             {
-                Console.WriteLine("Please enter either 'View' or 'Add'");
+                terminal.printStatement("Please enter either 'View' or 'Add'");
                 this.route();
             }
         }
@@ -47,17 +48,17 @@ namespace src
         {
             if (customer.getAccounts().Count > 1)
             {
-                Console.WriteLine($"Please enter {customer.custName}'s account number");
-                var accountNo = int.Parse(Console.ReadLine());
+                terminal.printStatement($"Please enter {customer.custName}'s account number");
+                var accountNo = int.Parse(terminal.returnStatement());
                 var account = customer.filterAccount(accountNo);
-                Console.WriteLine("");
-                Console.WriteLine(account);
+                terminal.printStatement("");
+                terminal.printAccount(account);
             }
             else
             {
-                var account = customer.getAccounts();
-                Console.WriteLine("");
-                Console.WriteLine(account);
+                var account = customer.getAccounts()[0];
+                terminal.printStatement("");
+                terminal.printAccount(account);
             }
         }
     }

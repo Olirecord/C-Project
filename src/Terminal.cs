@@ -16,6 +16,20 @@ namespace src
             }
 
         }
+        public void printCustomer(Customer customer)
+        {
+               Console.WriteLine(customer);
+        }
+
+        public void printAccount(Account account)
+        {
+            Console.WriteLine(account);
+        }
+        public void printTransaction(Transaction transaction)
+        {
+            Console.WriteLine(transaction);
+        }
+
 
         public string returnStatement()
         {

@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+
 
 namespace src
 {
     class Service
     {
 
-        Customers Customers = new Customers();
+        Customers customers = new Customers();
         Terminal terminal = new Terminal();
         IDictionary<string, IRouter> dictionaryRoute = new Dictionary<string, IRouter>();
 
@@ -18,16 +18,18 @@ namespace src
 
         public Service()
         {
-            dictionaryRoute.Add("customer",  new CustomerRouteService(this.Customers));
-            dictionaryRoute.Add("account",   new AccountRouteService(this.Customers));
-            dictionaryRoute.Add("transaction", new TransactionRouteService(this.Customers));
+            preloadData();
+            dictionaryRoute.Add("customer",  new CustomerRouteService(this.customers));
+            dictionaryRoute.Add("account",   new AccountRouteService(this.customers));
+            dictionaryRoute.Add("transaction", new TransactionRouteService(this.customers));
             mainMenu(true);
+
         }
 
 
         public void mainMenu(Boolean loop)
         {
-            while(loop == true)
+            while(loop)
             {
                 terminal.printStatement("Welcome to Olis Bank, Would you like to view or add a Customer, Account or Transaction?");
                 terminal.printStatement(" ");
@@ -43,6 +45,22 @@ namespace src
             var choice = dictionaryRoute[route.ToLower()];
             choice.route();
 
+        }
+
+        public void preloadData()
+        {
+            customers.addCustomer("Oli");
+            var customer = customers.getCustList()[0];
+            customer.addAccount(100, 100);
+            customer.addAccount(500, 500);
+            var accounts = customer.getAccounts();
+
+            foreach(Account account in accounts)
+            {
+                account.addTransaction("Fuel",30,true);
+                account.addTransaction("SickPay", 100, false);
+            }
+            
         }
 
     }

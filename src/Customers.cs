@@ -3,17 +3,14 @@ using System.Collections.Generic;
 
 namespace src
 {
-    class Customers
+    public class Customers
     {
         private readonly List<Customer> custList = new List<Customer>();
         
         
 
-        public Customers()
-        {
-            Customer customer = new Customer(1, "Oli");
-            custList.Add(customer);
-        }
+        public Customers() { }
+        
 
         public Customer filterCust(int custId)
         {
@@ -26,15 +23,15 @@ namespace src
             return custList;
         }
 
-        public string addCustomer(string name)
+        public Customer addCustomer(string name)
         {
             int custID = custList.Count+1;
             
             Customer customer = new Customer(custID,name);
             custList.Add(customer);
 
-            var confirmation = $"{name} has been added and their ID number is {custID}";
-            return confirmation;
+            
+            return customer;
         }
 
         

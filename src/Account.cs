@@ -24,13 +24,6 @@ namespace src
             this.overdraftAmount = overdraftAmount;
             this.ballance = ballance;
 
-            
-            Transaction transaction1 = new Transaction(1,"Fuel", 30, true, this.ballance-30);
-            this.ballance = this.ballance - 30;
-            transactions.Add(transaction1);
-            Transaction transaction2 = new Transaction(2, "SickPay", 10, false, this.ballance + 10);
-            transactions.Add(transaction2);
-            this.ballance = this.ballance + 10;
         }
 
         public override string ToString()
@@ -38,12 +31,27 @@ namespace src
             return $"AccNo: {this.accountNo} Ballance: {this.ballance} Overdraft: {this.overdraftAmount}"; 
         }
 
-        public string addTrans( string transName, int transAmount, Boolean debit,int remainingBallance)
+        public string addTransaction( string transName, int transAmount, Boolean debit)
         {
+            int remainingBallance;
+
+            if (debit == true && checkOverdraft(transAmount) == false)
+            {
+                throw (new OverdraftLimitExceededException("This transaction would take you over your agreed overdraft, please choose a lower amount"));
+            }
+            else if (debit == true && checkOverdraft(transAmount) == true)
+            {
+                remainingBallance = this.ballance - transAmount;
+            }
+            else
+            {
+                remainingBallance = this.ballance + transAmount;
+            }
+
             int transID = transactions.Count + 1;
             Transaction transaction = new Transaction(transID, transName, transAmount, debit, remainingBallance);
             transactions.Add(transaction);
-            var confirmation = $"Your transaction for {transName} for £{transAmount} has been taken from your ballance";
+            var confirmation = "Transaction Succesfull";
             this.ballance = remainingBallance;
             return confirmation;
         }
@@ -53,50 +61,23 @@ namespace src
             return transactions.Take(noOfTrans).ToList();
         }
 
-        public int calcBallance(int transAmount)
+
+        public Boolean checkOverdraft(int transAmount)
         {
-            int remainingBallance;
-            if (this.ballance < 0)
-            {
-                remainingBallance = (this.ballance + (transAmount * -1));
-                return remainingBallance;
+            var remainingBallance = this.ballance - transAmount;
+
+            if (remainingBallance < (this.overdraftAmount * -1))
+            { 
+                return false;
             }
-            else
+
+            if (remainingBallance < 0 && remainingBallance >= (this.overdraftAmount * -1))
             {
-                remainingBallance = this.ballance - transAmount;
-                return remainingBallance;
+                terminal.printStatement("This transaction will take you into your overdraft");
             }
+
+            return true;
         }
-
-        public string addTransaction(string transName, int transAmount, Boolean debit)
-        {
-            var remainingBallance = calcBallance(transAmount);
-
-            if (debit == true)
-            {
-                if (remainingBallance < 0 && remainingBallance >= (this.overdraftAmount * -1))
-                {
-                    terminal.printStatement("This transaction will take you into your overdraft");
-                    return addTrans(transName, transAmount, debit, remainingBallance);
-                }
-                else if (remainingBallance < (this.overdraftAmount * -1))
-                {
-                    terminal.printStatement("This transaction would take you over your agreed overdraft, please choose a lower amount");
-                    var confirmation = "";
-                    return confirmation;
-                }
-                else
-                {
-                    return addTrans(transName, transAmount, debit, remainingBallance);
-                }
-            }
-            else
-            {
-
-                return addTrans(transName, transAmount, debit, (this.ballance + transAmount));
-            }
-        }
-
 
     }
 }
